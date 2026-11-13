@@ -221,7 +221,7 @@ function renderAuth() {
   if (token) {
     const who = document.createElement("span");
     who.className = "who";
-    who.textContent = state.profile.email ? state.profile.email : "Signed in to AI Pipe";
+    who.textContent = state.profile.email ? state.profile.email : "Token saved";
     const usage = document.createElement("span");
     usage.className = "usage";
     if (state.usage && typeof state.usage.cost === "number") {
