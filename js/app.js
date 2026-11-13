@@ -405,10 +405,15 @@ async function readPdf(file) {
     let text = "";
     let lastY;
     for (const item of content.items) {
+      if (!item.str) continue;
       const y = item.transform?.[5];
-      if (lastY !== undefined && y !== undefined && Math.abs(y - lastY) > 2) text += "\n";
+      const size = Math.abs(item.transform?.[3]) || 10;
+      if (lastY !== undefined && y !== undefined) {
+        const dy = Math.abs(y - lastY);
+        if (dy > size * 1.8) text += "\n\n";
+        else if (dy > 2) text += "\n";
+      }
       text += item.str;
-      if (item.hasEOL) text += "\n";
       lastY = y;
     }
     pages.push(`# Page ${p}\n${text.replace(/\n{3,}/g, "\n\n").trim()}`);
